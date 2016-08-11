@@ -17,8 +17,10 @@ const {
 } = ReactNative;
 
 
-const styles = require('./SearchPage.styles');
+const styles = require('./searchPage.styles');
+const SearchResults = require('../searchResults/searchResults');
 
+const DATA = require('../../utils/data.json');
 const Utils = require('../../utils/utils');
 const {
   urlForQueryAndPage,
@@ -40,23 +42,22 @@ class SearchPage extends Component {
   _handleResponse(res){
     this.setState({ isLoading: false , message: '' });
     if (res.application_response_code.substr(0, 1) === '1') {
-      console.log('Properties found: ' + res.listings.length);
-    } else {
+      this.props.navigator.push({
+        title: 'Results',
+        component: SearchResults,
+        passProps: {listings: res.listings}
+      });
+    }
+    else {
       this.setState({ message: 'Location not recognized; please try again.'});
     }
   }
 
   _executeQuery(query) {
     this.setState({ isLoading: true });
-
-    fetch(query)
-      .then(response => response.json())
-      .then(json => this._handleResponse(json.response))
-      .catch(error =>
-         this.setState({
-          isLoading: false,
-          message: 'Something bad happened ' + error
-       }));
+    setTimeout(() => {
+      this._handleResponse(DATA.response);
+    }, 500);
   }
    
   onSearchPressed() {

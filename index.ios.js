@@ -15,7 +15,7 @@ const {
   Text,
 } = ReactNative;
 
-const SearchPage = require('./js/components/SearchPage/SearchPage');
+const SearchPage = require('./js/components/searchPage/searchPage');
 
 const styles = StyleSheet.create({
   text: {
